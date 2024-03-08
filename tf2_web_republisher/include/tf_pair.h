@@ -35,8 +35,9 @@
  */
 
 
-#include <tf/tfMessage.h>
-#include <tf/transform_datatypes.h>
+#include <tf2_msgs/msg/tf_message.hpp>
+#include <tf2/transform_datatypes.h>
+#include <tf2/convert.h>
 
 
 class TFPair
@@ -114,9 +115,9 @@ public:
     return trans_thres_;
   }
 
-  void updateTransform(geometry_msgs::TransformStamped& update)
+  void updateTransform(geometry_msgs::msg::TransformStamped& update)
   {
-    tf::transformMsgToTF(update.transform, tf_received_);
+    tf2::convert(update.transform, tf_received_);
     updated_ = true;
   }
 
@@ -161,8 +162,8 @@ private:
   float angular_thres_;
   float trans_thres_;
 
-  tf::Transform tf_transmitted_;
-  tf::Transform tf_received_;
+  tf2::Transform tf_transmitted_;
+  tf2::Transform tf_received_;
 
   bool updated_;
   bool first_transmission_;

@@ -10,13 +10,11 @@ set(THIS_PACKAGE_INCLUDE_DEPENDS
         tf2_ros
         tf2
         tf2_msgs
-        sensor_msgs
-        geometry_msgs
-        std_msgs
         builtin_interfaces
         tf2_eigen
         rclcpp_action
         tf2_geometry_msgs
+        tf2_web_republisher_msgs
 )
 
 foreach (package IN ITEMS ${THIS_PACKAGE_INCLUDE_DEPENDS})
@@ -33,23 +31,6 @@ target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES}
 )
 
 ament_target_dependencies(${PROJECT_NAME} ${THIS_PACKAGE_INCLUDE_DEPENDS})
-
-
-rosidl_generate_interfaces(
-        ${PROJECT_NAME}_msgs
-        msg/TFArray.msg
-        services/RepublishTFs.srv
-        action/TFSubscription.action
-        DEPENDENCIES
-        builtin_interfaces
-        action_msgs
-        geometry_msgs
-        sensor_msgs
-        std_msgs
-        builtin_interfaces
-)
-
-ament_export_dependencies(rosidl_default_runtime)
 
 
 install(
