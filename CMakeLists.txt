@@ -1,84 +1,70 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.22)
 project(tf2_web_republisher)
 
-## Find catkin macros and libraries
-## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
-## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS tf tf2_ros geometry_msgs actionlib actionlib_msgs roscpp message_generation)
-find_package(Boost REQUIRED COMPONENTS thread)
+find_package(ament_cmake REQUIRED)
 
-#######################################
-## Declare ROS messages and services ##
-#######################################
-
-add_action_files(
-  DIRECTORY action
-  FILES TFSubscription.action
+set(THIS_PACKAGE_INCLUDE_DEPENDS
+        Boost
+        Eigen3
+        rclcpp
+        tf2_ros
+        tf2
+        tf2_msgs
+        sensor_msgs
+        geometry_msgs
+        std_msgs
+        builtin_interfaces
+        tf2_eigen
+        rclcpp_action
+        tf2_geometry_msgs
 )
 
-add_service_files(
-  DIRECTORY services
-  FILES RepublishTFs.srv
-)
+foreach (package IN ITEMS ${THIS_PACKAGE_INCLUDE_DEPENDS})
+    find_package(${package} REQUIRED)
+endforeach ()
 
-add_message_files(
-  DIRECTORY msg
-  FILES TFArray.msg
-)
-
-## Generate added messages and services with any dependencies listed here
-generate_messages(
-  DEPENDENCIES actionlib_msgs std_msgs geometry_msgs roscpp
-)
-
-###################################################
-## Declare things to be passed to other projects ##
-###################################################
-
-## LIBRARIES: libraries you create in this project that dependent projects also need
-## CATKIN_DEPENDS: catkin_packages dependent projects also need
-## DEPENDS: system dependencies of this project that dependent projects also need
-catkin_package(
-  CATKIN_DEPENDS tf tf2_ros geometry_msgs actionlib actionlib_msgs message_runtime
-)
-
-###########
-## Build ##
-###########
-
-## Specify additional locations of header files
-include_directories(include
-  ${catkin_INCLUDE_DIRS}
-)
-
-## Declare a cpp executables
 add_executable(${PROJECT_NAME} src/tf_web_republisher.cpp)
-target_link_libraries(${PROJECT_NAME}
-  ${catkin_LIBRARIES} ${Boost_LIBRARIES}
-)
-add_dependencies(${PROJECT_NAME}
-  ${PROJECT_NAME}_generate_messages_cpp ${catkin_EXPORTED_TARGETS}
+target_include_directories(
+        ${PROJECT_NAME}
+        PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<INSTALL_INTERFACE:include>)
+
+target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES}
 )
 
-#############
-## Install ##
-#############
+ament_target_dependencies(${PROJECT_NAME} ${THIS_PACKAGE_INCLUDE_DEPENDS})
 
-## Mark executables and/or libraries for installation
+
+rosidl_generate_interfaces(
+        ${PROJECT_NAME}_msgs
+        msg/TFArray.msg
+        services/RepublishTFs.srv
+        action/TFSubscription.action
+        DEPENDENCIES
+        builtin_interfaces
+        action_msgs
+        geometry_msgs
+        sensor_msgs
+        std_msgs
+        builtin_interfaces
+)
+
+ament_export_dependencies(rosidl_default_runtime)
+
+
+install(
+        TARGETS ${PROJECT_NAME}
+        EXPORT export_${PROJECT_NAME}
+        ARCHIVE DESTINATION lib
+        LIBRARY DESTINATION lib
+        RUNTIME DESTINATION bin
+)
+
 install(TARGETS ${PROJECT_NAME}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+        RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
-install(DIRECTORY include/
-   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-   FILES_MATCHING PATTERN "*.h" PATTERN "*.hpp"
-)
+install(DIRECTORY include/ DESTINATION include)
 
-#############
-## Rostest ##
-#############
-if(CATKIN_ENABLE_TESTING)
-  find_package(rostest REQUIRED)
+ament_package()
 
-  add_rostest(test/test_tf2_web_republisher.test)
-endif()
