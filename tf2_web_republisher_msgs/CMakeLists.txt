@@ -18,7 +18,7 @@ endforeach ()
 
 
 rosidl_generate_interfaces(
-    ${PROJECT_NAME}_msgs
+    ${PROJECT_NAME}
     msg/TFArray.msg
     services/RepublishTFs.srv
     action/TFSubscription.action
