@@ -4,12 +4,13 @@ project(tf2_web_republisher_msgs)
 find_package(ament_cmake REQUIRED)
 
 set(THIS_PACKAGE_INCLUDE_DEPENDS
-    tf2_msgs
-    geometry_msgs
-    std_msgs
     builtin_interfaces
+    geometry_msgs
+    rosidl_default_generators
+    std_msgs
     tf2_eigen
     tf2_geometry_msgs
+    tf2_msgs
 )
 
 foreach (package IN ITEMS ${THIS_PACKAGE_INCLUDE_DEPENDS})
