@@ -10,27 +10,24 @@ set(THIS_PACKAGE_INCLUDE_DEPENDS
     std_msgs
     tf2_eigen
     tf2_geometry_msgs
-    tf2_msgs
-)
+    tf2_msgs)
 
-foreach (package IN ITEMS ${THIS_PACKAGE_INCLUDE_DEPENDS})
+foreach(package IN ITEMS ${THIS_PACKAGE_INCLUDE_DEPENDS})
   find_package(${package} REQUIRED)
-endforeach ()
-
+endforeach()
 
 rosidl_generate_interfaces(
-    ${PROJECT_NAME}
-    msg/TFArray.msg
-    services/RepublishTFs.srv
-    action/TFSubscription.action
-    DEPENDENCIES
-    builtin_interfaces
-    action_msgs
-    geometry_msgs
-    std_msgs
-    tf2_msgs
-    builtin_interfaces
-)
+  ${PROJECT_NAME}
+  msg/TFArray.msg
+  services/RepublishTFs.srv
+  action/TFSubscription.action
+  DEPENDENCIES
+  builtin_interfaces
+  action_msgs
+  geometry_msgs
+  std_msgs
+  tf2_msgs
+  builtin_interfaces)
 
 ament_export_dependencies(rosidl_default_runtime)
 
