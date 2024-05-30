@@ -4,15 +4,15 @@ project(tf2_web_republisher)
 find_package(ament_cmake REQUIRED)
 
 set(THIS_PACKAGE_INCLUDE_DEPENDS
-    Eigen3
-    rclcpp
-    tf2_ros
-    tf2
-    tf2_msgs
     builtin_interfaces
-    tf2_eigen
+    eigen3_cmake_module
+    rclcpp
     rclcpp_action
+    tf2
+    tf2_eigen
     tf2_geometry_msgs
+    tf2_msgs
+    tf2_ros
     tf2_web_republisher_msgs)
 
 foreach(package IN ITEMS ${THIS_PACKAGE_INCLUDE_DEPENDS})

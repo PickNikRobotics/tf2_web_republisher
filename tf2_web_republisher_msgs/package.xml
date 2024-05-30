@@ -2,9 +2,7 @@
   <name>tf2_web_republisher_msgs</name>
   <version>1.0.0</version>
   <description>Messages for tf2_web_republisher</description>
-
-  <maintainer email="TODO@TODO.com">TODO</maintainer>
-  <author email="TODO@TODO.com">TODO</author>
+  <maintainer email="paul.gesel@picknik.ai">Paul Gesel</maintainer>
 
   <license>BSD</license>
 

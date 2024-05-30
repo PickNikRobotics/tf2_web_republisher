@@ -2,9 +2,7 @@
   <name>tf2_web_republisher</name>
   <version>1.0.0</version>
   <description>Republishing of Selected TFs</description>
-
-  <maintainer email="TODO@TODO.com">TODO</maintainer>
-  <author email="TODO@TODO.com">TODO</author>
+  <maintainer email="paul.gesel@picknik.ai">Paul Gesel</maintainer>
 
   <license>BSD</license>
 
@@ -15,6 +13,7 @@
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <depend>actionlib_msgs</depend>
+  <depend>eigen3_cmake_module</depend>
   <depend>geometry_msgs</depend>
   <depend>rclcpp</depend>
   <depend>rclcpp_action</depend>
